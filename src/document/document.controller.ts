@@ -12,6 +12,7 @@ import { DocumentService } from './document.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as fs from 'fs';
 import { diskStorage } from 'multer';
+import { randomBytes } from 'crypto';
 
 @Controller('document')
 export class DocumentController {
@@ -31,7 +32,8 @@ export class DocumentController {
       storage: diskStorage({
         destination: './storage',
         filename: (req, file, callback) => {
-          const fileName = `${Date.now()}-${file.originalname}`;
+          const randomText = randomBytes(16).toString('hex');
+          const fileName = `${randomText}-${file.originalname}`;
           callback(null, fileName);
         },
       }),
