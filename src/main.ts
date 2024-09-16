@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as dotenv from 'dotenv';
+// import { StaticAssetsThrottlerGuard } from './rate-limiting';
 
 dotenv.config();
 async function bootstrap() {
