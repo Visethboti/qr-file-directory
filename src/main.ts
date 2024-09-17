@@ -11,8 +11,8 @@ async function bootstrap() {
 
   // limit user request for access static files in the project
   const limiter = rateLimit({
-    windowMs: 60 * 1000,
-    limit: 3,
+    windowMs: 5 * 60 * 1000,
+    limit: 10,
     standardHeaders: 'draft-7',
     legacyHeaders: false,
   });
