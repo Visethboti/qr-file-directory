@@ -1,29 +1,25 @@
-import { Module } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EmployeeModule } from './employee/employee.module';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { APP_GUARD } from '@nestjs/core';
+import { CheckPasswordMiddleware } from './check-password-middleware';
 
 @Module({
-  imports: [
-    EmployeeModule,
-    ThrottlerModule.forRoot([
-      {
-        ttl: 60000,
-        limit: 3,
-      },
-    ]),
-  ],
+  imports: [EmployeeModule],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_GUARD,
-      useClass: ThrottlerGuard,
-    },
-  ],
+  providers: [AppService],
 })
-export class AppModule {
+export class AppModule implements NestModule {
   constructor() {}
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(CheckPasswordMiddleware)
+      .forRoutes({ path: 'employee', method: RequestMethod.ALL });
+  }
 }

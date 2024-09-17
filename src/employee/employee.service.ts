@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Request } from 'express';
 import * as QRCode from 'qrcode';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -44,11 +43,5 @@ export class EmployeeService {
     const qrCodeDataUrl = await QRCode.toDataURL(fileUrl);
 
     return qrCodeDataUrl;
-  }
-
-  getBaseUrl(req: Request): string {
-    const protocol = req.protocol;
-    const host = req.get('host');
-    return `${protocol}://${host}`;
   }
 }

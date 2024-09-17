@@ -35,7 +35,7 @@ export class EmployeeController {
         destination: './storage',
         filename: (req, file, callback) => {
           const randomText = randomBytes(16).toString('hex');
-          const fileName = `${randomText}-${file.filename}`;
+          const fileName = `${randomText}-${file.originalname}`;
           callback(null, fileName);
         },
       }),
